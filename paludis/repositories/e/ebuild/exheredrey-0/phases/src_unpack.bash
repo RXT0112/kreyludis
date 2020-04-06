@@ -1,3 +1,9 @@
+#!/bin/false
+# - This file is expected to be sourced by paludis backend
+
+# shellcheck shell=bash
+# shellcheck disable=SC1008 # Using /bin/false to prevent invokation of library file
+
 src_unpack_default() {
 	edebug "Variable ARCHIVES stores following value(s): '$ARCHIVES' in function ${FUNCNAME[0]}"
 
