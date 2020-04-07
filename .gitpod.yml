@@ -1,6 +1,10 @@
 image:
   file: gitpod/debian.Dockerfile
 
+tasks:
+  - init: printf 'FIXME: %s\n' "Remove me somehow"
+    command: export PS1="\033[1m\e[38;5;201m[ \t : \w : EXIT \$? ]\033[0m\e[38;5;011m\n\u@gitpod \\$ \[$(tput sgr0)\]"
+
 vscode:
   extensions:
     - timonwong.shellcheck@0.9.0:hsU/Rd39aqPYowTqL+DbXg==

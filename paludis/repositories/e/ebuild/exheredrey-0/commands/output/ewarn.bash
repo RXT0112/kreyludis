@@ -1,4 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/false
+# shellcheck shell=bash # This file is expected to be sourced by paludis backend only
+
 # Created by Jacob Hrbek <kreyren@rixotstudio.cz> in 2020 under the terms of GPL-3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 # NOTICE: This script is compatible with POSIX sh
@@ -22,12 +24,12 @@ einfo() {
 		printf "$PALUDIS_EWARN_FORMAT" "$1"
 		return 0
 	elif [ -n "$PALUDIS_EWARN_FORMAT" ]; then
-		printf 'ERROR: %s\n' "$1"
+		printf 'WARN: %s\n' "$1"
 		return 0
 	else
 		case "$LANG" in
-			cs-*) die 256 "zpracování proměnné PALUDIS_EWARN_FORMAT s hodnotou '$PALUDIS_EWARN_FORMAT' ve funkci '${FUNCNAME[0]}'" ;;
-			en-*|*) die 256 "processing variable PALUDIS_EWARN_FORMAT with value '$PALUDIS_EWARN_FORMAT' in function '${FUNCNAME[0]}'"
+			cs-*) die 255 "zpracování proměnné PALUDIS_EWARN_FORMAT s hodnotou '$PALUDIS_EWARN_FORMAT' ve funkci '${FUNCNAME[0]}'" ;;
+			en-*|*) die 255 "processing variable PALUDIS_EWARN_FORMAT with value '$PALUDIS_EWARN_FORMAT' in function '${FUNCNAME[0]}'"
 		esac
 	fi
 }

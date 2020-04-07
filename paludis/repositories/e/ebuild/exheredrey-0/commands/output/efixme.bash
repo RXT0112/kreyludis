@@ -1,4 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/false
+# shellcheck shell=bash # This file is expected to be sourced by paludis backend only
+
 # Created by Jacob Hrbek <kreyren@rixotstudio.cz> in 2019 under the terms of GPL-3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 ###! Abstract:
@@ -25,6 +27,7 @@ efixme() {
 	if [ -z "$PALUDIS_IGNORE_FIXME" ]; then
 		# Allow end-user formatting changes
 		if [ -n "$PALUDIS_EFIXME_FORMAT" ]; then
+			# shellcheck disable=SC2059 # Variable in format string is expected to allow customization
 			printf "$PALUDIS_EFIXME_FORMAT" "$1"
 			return 0
 		elif [ -z "$PALUDIS_EFIXME_FORMAT" ]; then
@@ -33,7 +36,7 @@ efixme() {
 		else
 			# FIXME-LOCAL: Add more translations
 			case "$LANG" in
-				cs-*) die 255 "exportování fixme zprávy"
+				cs-*) die 255 "exportování fixme zprávy" ;;
 				en-*|*) die 255 "exporting fixme message"
 			esac
 		fi
@@ -44,6 +47,6 @@ efixme() {
 		die 36 "Variable 'PALUDIS_IGNORE_FIXME' does not support value '$PALUDIS_IGNORE_FIXME', supported value is '1' to disable fixme messages"
 	else
 		# POSIX: FUNCNAME is not recognized on POSIX sh
-		die 256 "Processing 'PALUDIS_IGNORE_FIXME' with value '$PALUDIS_IGNORE_FIXME' in function ${FUNCNAME[0]}"
+		die 255 "Processing 'PALUDIS_IGNORE_FIXME' with value '$PALUDIS_IGNORE_FIXME' in function ${FUNCNAME[0]}"
 	fi
 }

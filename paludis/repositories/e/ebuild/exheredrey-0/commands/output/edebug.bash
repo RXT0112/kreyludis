@@ -1,4 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/false
+# shellcheck shell=bash # This file is expected to be sourced by paludis backend only
+
 # Created by Jacob Hrbek <kreyren@rixotstudio.cz> in 2019 under GPL-3 <https://www.gnu.org/licenses/gpl-3.0.en.html> license
 
 ###! Abstract:
@@ -15,26 +17,57 @@
 ###! Additional informations:
 ###! - Can be customized using PALUDIS_EDEBUG_FORMAT
 
+# FIXME: Implement level debugging
+
+# Example use in code assuming PALUDIS_DEBUG variable set on either 1,2 or 3:
+# - 'edebug 1 "level 1 message"' -> Output 'DEBUG: level 1 message'
+# - 'edebug 2 "level 2 message"' -> Output 'DEEP-DEBUG: level 1 message'2
+# - 'edebug 3 "level 3 message"' -> Output 'TRACE: level 3 message'
+# - 'edebug anything "something"' -> Error
+
 edebug() {
-	# NOTICE: Checking blank is apparently faster so process it first
+	# NOTICE: Checking blank is apparently faster so process it first (FIXME: Sanity check needed)
 	if [ -z "$PALUDIS_DEBUG" ]; then
 		return 0
-	elif [ "$PALUDIS_DEBUG" = 1 ]; then
-		# NOTICE: Allow end-user formatting changes
-		if [ -z "$PALUDIS_EDEBUG_FORMAT" ]; then
-			printf 'DEBUG: %s\n' "$1"
-			return 0
-		elif [ -n "$PALUDIS_EDEBUG_FORMAT" ]; then
-			# shellcheck disable=SC2059 # Variable in format string is expected to allow customization
-			printf "$PALUDIS_EDEBUG_FORMAT" "$1"
-			return 0
-		else
-			# FIXME-LOCAL: Add more translations
-			case "$LANG" in
-				cs-*) die 256 "exportování debugovací zprávy s formátem '$PALUDIS_EDEBUG_FORMAT'" ;;
-				en-*|*) die 256 "exporting debug message with format '$PALUDIS_EDEBUG_FORMAT'"
-			esac
-		fi
+	# POSIX: Glob expansion used
+	# FIXME-QA: Ugly af
+	elif [[ "$PALUDIS_DEBUG" = @(1|2|3) ]]; then
+		case "$1" in
+			1)
+				# FIXME: Also output if PALUDIS_DEBUG contains 1
+				[[ "$PALUDIS_DEBUG" = @(1|2|3) ]] && printf 'DEBUG: %s\n' "$2"
+				return 0
+			;;
+			2)
+				# FIXME: Also output if PALUDIS_DEBUG contains 2
+				[[ "$PALUDIS_DEBUG" = @(2|3) ]] && printf 'DEEP-DEBUG: %s\n' "$2" 
+				return 0
+			;;
+			3)
+				# FIXME: Also output if PALUDIS_DEBUG contains 3
+				[ "$PALUDIS_DEBUG" = 3 ] && printf 'TRACE: %s\n' "$2"
+				return 0
+			;;
+			*)
+				die 255 "processing whatever"
+		esac
+
+
+		# # NOTICE: Allow end-user formatting changes
+		# if [ -z "$PALUDIS_EDEBUG_FORMAT" ]; then
+		# 	printf 'DEBUG: %s\n' "$1"
+		# 	return 0
+		# elif [ -n "$PALUDIS_EDEBUG_FORMAT" ]; then
+		# 	# shellcheck disable=SC2059 # Variable in format string is expected to allow customization
+		# 	printf "$PALUDIS_EDEBUG_FORMAT" "$1"
+		# 	return 0
+		# else
+		# 	# FIXME-LOCAL: Add more translations
+		# 	case "$LANG" in
+		# 		cs-*) die 255 "exportování debugovací zprávy s formátem '$PALUDIS_EDEBUG_FORMAT' a levelem '1'" ;;
+		# 		en-*|*) die 255 "exporting debug message with format '$PALUDIS_EDEBUG_FORMAT' and level '1'"
+		# 	esac
+		# fi
 	# Security trap
 	elif [ -n "$PALUDIS_DEBUG" ]; then
 		case "$LANG" in
@@ -45,8 +78,8 @@ edebug() {
 	else
 		# POSIX: FUNCNAME is not recognized on POSIX sh
 		case "$LANG" in
-			cs-*)  die 256 "zpracování proměnné 'PALUDIS_DEBUG' s hodnotou '$PALUDIS_DEBUG' ve funkci '${FUNCNAME[0]}'" ;;
-			en-*|*) die 256 "processing variable 'PALUDIS_DEBUG' with value '$PALUDIS_DEBUG' in function '${FUNCNAME[0]}'"
+			cs-*)  die 255 "zpracování proměnné 'PALUDIS_DEBUG' s hodnotou '$PALUDIS_DEBUG' ve funkci '${FUNCNAME[0]}'" ;;
+			en-*|*) die 255 "processing variable 'PALUDIS_DEBUG' with value '$PALUDIS_DEBUG' in function '${FUNCNAME[0]}'"
 		esac
 	fi
 }

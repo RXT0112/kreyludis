@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/false
+# shellcheck shell=bash # This file is expected to be sourced by paludis backend only
 
 ###! Abstract: Provide a wrapper that terminates the shell and outputs a helpful message
 ###!
@@ -20,7 +21,7 @@ die() {
 				en-*|*) printf 'SECURITY: %s\n' "$2"
 			esac
 		;;
-		256) # Unexpected handling
+		255) # Unexpected handling
 			case "$LANG" in
 				cs-*) printf 'NEOČEKÁVANÉ: Neočekávané se stalo během %s\n' "$2" ;;
 				en-*|*) printf 'UNEXPECTED: Unexpected happend while %s\n' "$2"
@@ -33,9 +34,17 @@ die() {
 				printf 'PING: %s\n' "$2"
 			else
 				printf 'FATAL: %s\n' "Unexpected happend while processing function ${FUNCNAME[0]} with argument '$1'"
-				exit 256
+				exit 255
 			fi
-		;; 
+		;;
+		bug) # Ping used for development
+			printf 'BUG: %s\n' "$2"
+			exit 1
+		;;
+		unimplemented)
+			printf 'UNIMPLEMENTED: %s\n' "$2"
+			exit 1
+		;;
 		*)
 			if [ -z "$PALUDIS_DIE_FORMAT" ]; then
 				printf 'FATAL: %s\n' "$2"
@@ -44,7 +53,7 @@ die() {
 				printf "$PALUDIS_DIE_FORMAT" "$2"
 			else
 				printf 'FATAL: %s\n' "Unexpected happend while processing function ${FUNCNAME[0]} with '$1'"
-				exit 256
+				exit 255
 			fi
 	esac
 
