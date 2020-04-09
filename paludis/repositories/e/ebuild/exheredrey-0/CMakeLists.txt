@@ -1,5 +1,5 @@
 
-paludis_add_test(conditional_functions BASH EBUILD_MODULE_SUFFIXES exheres-0)
+paludis_add_test(conditional_functions BASH EBUILD_MODULE_SUFFIXES exheredrey-0)
 
 install(PROGRAMS
           "${CMAKE_CURRENT_SOURCE_DIR}/build_functions.bash"
@@ -40,5 +40,5 @@ install(PROGRAMS
           "${CMAKE_CURRENT_SOURCE_DIR}/src_prepare.bash"
           "${CMAKE_CURRENT_SOURCE_DIR}/src_unpack.bash"
         DESTINATION
-          "${CMAKE_INSTALL_FULL_LIBEXECDIR}/paludis/exheres-0")
+          "${CMAKE_INSTALL_FULL_LIBEXECDIR}/paludis/exheredrey-0")
 
