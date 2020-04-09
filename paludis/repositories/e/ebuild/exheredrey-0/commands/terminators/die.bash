@@ -1,5 +1,5 @@
 #!/bin/false
-# shellcheck shell=bash # This file is expected to be sourced by paludis backend only
+# shellcheck shell=sh # This file is expected to be sourced by paludis backend only
 
 ###! Abstract: Provide a wrapper that terminates the shell and outputs a helpful message
 ###!
@@ -33,7 +33,8 @@ die() {
 			elif [ -n "$2" ]; then
 				printf 'PING: %s\n' "$2"
 			else
-				printf 'FATAL: %s\n' "Unexpected happend while processing function ${FUNCNAME[0]} with argument '$1'"
+				# POSIX: FUNCNAME used
+				printf 'FATAL: %s\n' "Unexpected happend while processing function '${FUNCNAME[0]}' with argument '$1'"
 				exit 255
 			fi
 		;;
@@ -44,6 +45,19 @@ die() {
 		unimplemented)
 			printf 'UNIMPLEMENTED: %s\n' "$2"
 			exit 1
+		;;
+		posix|26) # This is expected to die unless non-posix system is used
+			efixme "Command 'die posix ..' needs better logic"
+			if [ "$SHELL" != /bin/bash ]; then
+				printf 'POSIX: %s\n' "$2"
+				exit 26
+			elif [ "$SHELL" = /bin/bash ]; then
+				edebug 3 "Passed posix check"
+				return 0
+			else
+				efixme "Translate needed"
+				die 255 "checking for posix"
+			fi
 		;;
 		*)
 			if [ -z "$PALUDIS_DIE_FORMAT" ]; then
