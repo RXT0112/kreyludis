@@ -1,0 +1,1 @@
+Functions used to terminate/assert the runtime

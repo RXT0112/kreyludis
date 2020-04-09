@@ -1,4 +1,5 @@
-FROM debian:latest
+# Stablebian does not provide required shellcheck 0.7.0
+FROM debian:testing
 
 # FIXME: Outputs `gitpod@ws-ce281d58-997b-44b8-9107-3f2da7feede3:/workspace/gitpod-tests1$` in terminal
 # FIXME: Add hadolint executable

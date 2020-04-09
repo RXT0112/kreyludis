@@ -17,6 +17,7 @@ install(FILES
           "${CMAKE_CURRENT_SOURCE_DIR}/pbin-1+5.conf"
           "${CMAKE_CURRENT_SOURCE_DIR}/pbin-1+6.conf"
           "${CMAKE_CURRENT_SOURCE_DIR}/pbin-1+exheres-0.conf"
+          "${CMAKE_CURRENT_SOURCE_DIR}/pbin-1+exheredrey-0.conf"
           "${CMAKE_CURRENT_SOURCE_DIR}/pbin-1+paludis-1.conf"
         DESTINATION
           "${CMAKE_INSTALL_FULL_DATADIR}/paludis/eapis")

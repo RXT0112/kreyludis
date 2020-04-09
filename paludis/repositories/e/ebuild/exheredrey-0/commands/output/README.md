@@ -1,0 +1,1 @@
+These functions are used to handle output for the end-user
